@@ -1,0 +1,1 @@
+python src/train.py task_name=ann data.batch_size=2048 trainer.max_epochs=1000 logger="tensorboard" tags=["example"]

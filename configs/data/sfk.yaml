@@ -1,0 +1,7 @@
+_target_: src.data.sfk_datamodule.GraceDataModule
+data_dir: ${paths.root_dir}/data/intern/0pt75m_grace_dataset.csv
+val_size: 0.3
+batch_size: 2048 # Needs to be divisible by the number of devices (e.g., if in a distributed setup)
+seed: ${seed}
+num_workers: 16
+pin_memory: False

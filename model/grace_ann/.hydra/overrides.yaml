@@ -1,0 +1,5 @@
+- task_name=sfk_many
+- seed=105
+- data.batch_size=2048
+- trainer.max_epochs=10000
+- logger=tensorboard

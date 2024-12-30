@@ -1,0 +1,104 @@
+CONFIG
+├── data
+│   └── _target_: src.data.sfk_datamodule.GraceDataModule                                                                              
+│       data_dir: /home/jaynieles/dev/grace_dl/data/thesis/241103_075m_grace_dataset.csv                                               
+│       val_size: 0.3                                                                                                                  
+│       batch_size: 2048                                                                                                               
+│       seed: 105                                                                                                                      
+│       num_workers: 16                                                                                                                
+│       pin_memory: false                                                                                                              
+│                                                                                                                                      
+├── model
+│   └── _target_: src.models.sfk_module.GraceLitModule                                                                                 
+│       optimizer:                                                                                                                     
+│         _target_: torch.optim.Adam                                                                                                   
+│         _partial_: true                                                                                                              
+│         lr: 0.001                                                                                                                    
+│         weight_decay: 0.0                                                                                                            
+│       net:                                                                                                                           
+│         _target_: src.models.components.sfk_net.FKNet                                                                                
+│         input_size: 6                                                                                                                
+│         hidden_size:                                                                                                                 
+│         - 1024                                                                                                                       
+│         - 1024                                                                                                                       
+│         output_size: 12                                                                                                              
+│         dropout: 0.1                                                                                                                 
+│       compile: false                                                                                                                 
+│                                                                                                                                      
+├── callbacks
+│   └── model_checkpoint:                                                                                                              
+│         _target_: lightning.pytorch.callbacks.ModelCheckpoint                                                                        
+│         dirpath: /home/jaynieles/dev/grace_dl/logs/sfk_many/multiruns/2024-11-03_20-29-47/1/checkpoints                              
+│         filename: epoch_{epoch:03d}                                                                                                  
+│         monitor: val/loss                                                                                                            
+│         verbose: false                                                                                                               
+│         save_last: true                                                                                                              
+│         save_top_k: 1                                                                                                                
+│         mode: min                                                                                                                    
+│         auto_insert_metric_name: false                                                                                               
+│         save_weights_only: false                                                                                                     
+│         every_n_train_steps: null                                                                                                    
+│         train_time_interval: null                                                                                                    
+│         every_n_epochs: null                                                                                                         
+│         save_on_train_epoch_end: null                                                                                                
+│       early_stopping:                                                                                                                
+│         _target_: lightning.pytorch.callbacks.EarlyStopping                                                                          
+│         monitor: val/loss_best                                                                                                       
+│         min_delta: 0.0                                                                                                               
+│         patience: 200                                                                                                                
+│         verbose: false                                                                                                               
+│         mode: min                                                                                                                    
+│         strict: true                                                                                                                 
+│         check_finite: true                                                                                                           
+│         stopping_threshold: null                                                                                                     
+│         divergence_threshold: null                                                                                                   
+│         check_on_train_epoch_end: null                                                                                               
+│       model_summary:                                                                                                                 
+│         _target_: lightning.pytorch.callbacks.RichModelSummary                                                                       
+│         max_depth: -1                                                                                                                
+│       rich_progress_bar:                                                                                                             
+│         _target_: lightning.pytorch.callbacks.RichProgressBar                                                                        
+│                                                                                                                                      
+├── logger
+│   └── tensorboard:                                                                                                                   
+│         _target_: lightning.pytorch.loggers.tensorboard.TensorBoardLogger                                                            
+│         save_dir: /home/jaynieles/dev/grace_dl/logs/sfk_many/multiruns/2024-11-03_20-29-47/1/tensorboard/                            
+│         name: null                                                                                                                   
+│         log_graph: false                                                                                                             
+│         default_hp_metric: true                                                                                                      
+│         prefix: ''                                                                                                                   
+│                                                                                                                                      
+├── trainer
+│   └── _target_: lightning.pytorch.trainer.Trainer                                                                                    
+│       default_root_dir: /home/jaynieles/dev/grace_dl/logs/sfk_many/multiruns/2024-11-03_20-29-47/1                                   
+│       min_epochs: 1                                                                                                                  
+│       max_epochs: 10000                                                                                                              
+│       accelerator: gpu                                                                                                               
+│       devices: 1                                                                                                                     
+│       check_val_every_n_epoch: 1                                                                                                     
+│       deterministic: false                                                                                                           
+│                                                                                                                                      
+├── paths
+│   └── root_dir: /home/jaynieles/dev/grace_dl                                                                                         
+│       data_dir: /home/jaynieles/dev/grace_dl/data/                                                                                   
+│       log_dir: /home/jaynieles/dev/grace_dl/logs/                                                                                    
+│       output_dir: /home/jaynieles/dev/grace_dl/logs/sfk_many/multiruns/2024-11-03_20-29-47/1                                         
+│       work_dir: /home/jaynieles/dev/grace_dl                                                                                         
+│                                                                                                                                      
+├── extras
+│   └── ignore_warnings: false                                                                                                         
+│       enforce_tags: true                                                                                                             
+│       print_config: true                                                                                                             
+│                                                                                                                                      
+├── task_name
+│   └── sfk_many                                                                                                                       
+├── tags
+│   └── ['dev']                                                                                                                        
+├── train
+│   └── True                                                                                                                           
+├── test
+│   └── True                                                                                                                           
+├── ckpt_path
+│   └── None                                                                                                                           
+└── seed
+    └── 105                                                                                                                            

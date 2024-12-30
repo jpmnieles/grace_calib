@@ -25,7 +25,50 @@ The dataset is located at `data/intern/0pt75m_grace_dataset.zip`. Extract the zi
 * x_c_r (meter): the x-axis value of the right eye camera gaze point intersection with charuco board in chest camera coordinates.
 * y_c_r (meter): the y-axis value of the right eye camera gaze point intersection with charuco board in chest camera coordinates.
 * z_c_r (meter): the z-axis value of the right eye camera gaze point intersection with charuco board in chest camera coordinates.
+* cmd_theta_lower_neck_pan (deg): motor command for the neck rotation motor
+* cmd_theta_lower_neck_tilt (deg): motor command for the lower gimbal left and lower gimbal right motor
+* cmd_theta_upper_neck_tilt (deg): motor command for the upper gimbal left and upper gimbal right motor
+* cmd_theta_left_eye_pan (deg): motor command for the eye turn left motor
+* cmd_theta_right_eye_pan (deg): motor command for the eye turn right motor
+* cmd_theta_eyes_tilt (deg): motor command for the eyes up down motor
 
-Pose orientation follows the OpenCV convention; x-axis: positive rightwards, y_axis: positive downwards, z-axis: positive towards the board.
+
+* state_theta_lower_neck_pan (deg): motor encoder position for the neck rotation motor
+* state_theta_left_lower_neck_tilt (deg): motor encoder position for the lower gimbal left motor
+* state_theta_right_lower_neck_tilt (deg): motor encoder position for the lower gimbal right motor
+* state_left_theta_upper_neck_tilt (deg): motor encoder position for the upper gimbal left motor
+* state_right_theta_upper_neck_tilt (deg): motor encoder position for the upper gimbal right motor
+* state_theta_left_eye_pan (deg): motor encoder position for the eye turn left motor
+* state_theta_right_eye_pan (deg): motor encoder position for the eye turn right motor
+* state_theta_eyes_tilt (deg): motor encoder position for the eyes up down motor
+
+* l_rvec_0 (rad): first component of the rotation vector or x-axis rotation in the T_lc0 homogeneous transformation matrix. T_lc0 is the coordinate transform from left eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* l_rvec_1 (rad): second component of the rotation vector or y-axis rotation in the T_lc0 homogeneous transformation matrix. T_lc0 is the coordinate transform from left eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* l_rvec_2 (rad): third component of the rotation vector or z-axis rotation in the T_lc0 homogeneous transformation matrix. T_lc0 is the coordinate transform from left eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* l_tvec_0 (rad): first component of the transation vector or the x value in the T_lc0 homogeneous transformation matrix. T_lc0 is the coordinate transform from left eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* l_tvec_1 (rad): second component of the translation vector or y value in the T_lc0 homogeneous transformation matrix. T_lc0 is the coordinate transform from left eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* l_tvec_2 (rad): third component of the translation vector or z value in the T_lc0 homogeneous transformation matrix. T_lc0 is the coordinate transform from left eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+
+* r_rvec_0 (rad): first component of the rotation vector or x-axis rotation in the T_rc0 homogeneous transformation matrix. T_rc0 is the coordinate transform from right eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* r_rvec_1 (rad): second component of the rotation vector or y-axis rotation in the T_rc0 homogeneous transformation matrix. T_rc0 is the coordinate transform from right eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* r_rvec_2 (rad): third component of the rotation vector or z-axis rotation in the T_rc0 homogeneous transformation matrix. T_rc0 is the coordinate transform from right eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* r_tvec_0 (rad): first component of the transation vector or the x value in the T_rc0 homogeneous transformation matrix. T_rc0 is the coordinate transform from right eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* r_tvec_1 (rad): second component of the translation vector or y value in the T_rc0 homogeneous transformation matrix. T_rc0 is the coordinate transform from right eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+* r_tvec_2 (rad): third component of the translation vector or z value in the T_rc0 homogeneous transformation matrix. T_rc0 is the coordinate transform from right eye camera to chest camera coordinate system assuming 0-degree chest camera motor command.
+
+Pose orientation follows the OpenCV convention; x-axis: positive rightwards, y_axis: positive downwards, z-axis: positive towards the board. Conversion of rotation vector to rotation matrix and vice versa can be done using the Rodrigues function in OpenCV.
+
+
+## ANN Model
+
+The model predicts the coordinate transformation from the left and right camera to the chest camera of the Grace Robot given a set of motor commands as input.
+
+The dataset is normalized using min-max normalization with the ranges [-44,44] deg for the motor commands inpiut, [-1.5,1.5] meters for the x,y,z translation vector output, and [-1.5708,1.5708] rad for the rotation vector output.
+
+The ANN model checkpoint is located at `model/grace_ann/checkpoints/epoch_498.ckpt` with its training configuration and parameters found at `model/grace_ann/config_tree.log`.
+
+To retrain the model, run the following command `source scripts/train_template.sh` and view the training curves on tensorboard.
+
+
 
 
